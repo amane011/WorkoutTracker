@@ -81,9 +81,11 @@ class HomeFragment : Fragment() {
     private fun showNewWorkoutDialog() {
         val dialogBinding = DialogNewWorkoutBinding.inflate(layoutInflater)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.Theme_WorkoutTracker)
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
             .create()
+
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
 
         dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
