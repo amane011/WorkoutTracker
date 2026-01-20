@@ -112,20 +112,6 @@
 
                     </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_manage_exercises"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Manage Exercises"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/on_primary"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_fitness"
-                        app:iconGravity="textStart"
-                        app:iconTint="@color/primary" />
-
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>

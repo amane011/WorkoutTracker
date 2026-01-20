@@ -18,6 +18,7 @@ import com.example.workouttracker.ui.adapters.ExerciseCardAdapter
 import com.example.workouttracker.ui.adapters.ExercisePickerAdapter
 import com.example.workouttracker.ui.adapters.ExerciseWithSets
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class WorkoutFragment : Fragment() {
@@ -162,6 +163,9 @@ class WorkoutFragment : Fragment() {
         val sheetBinding = BottomSheetExercisesBinding.inflate(layoutInflater)
         bottomSheetDialog.setContentView(sheetBinding.root)
 
+        var selectedMuscleGroup: String? = null
+        var allExercises: List<Exercise> = emptyList()
+
         val pickerAdapter = ExercisePickerAdapter { exercise ->
             viewModel.addSet(exercise.id, 10, null)
             bottomSheetDialog.dismiss()
@@ -172,16 +176,41 @@ class WorkoutFragment : Fragment() {
             adapter = pickerAdapter
         }
 
-        viewModel.exercises.observe(viewLifecycleOwner) { exercises ->
-            pickerAdapter.submitList(exercises)
-            sheetBinding.emptyState.isVisible = exercises.isEmpty()
-            sheetBinding.exercisesRecycler.isVisible = exercises.isNotEmpty()
+        fun updateFilteredList() {
+            val filtered = if (selectedMuscleGroup == null) {
+                allExercises
+            } else {
+                allExercises.filter { it.muscleGroup == selectedMuscleGroup }
+            }
+            pickerAdapter.submitList(filtered)
+            sheetBinding.emptyState.isVisible = filtered.isEmpty()
+            sheetBinding.exercisesRecycler.isVisible = filtered.isNotEmpty()
 
             val selectedIds = viewModel.workoutSets.value
                 ?.map { it.exerciseId }
                 ?.toSet()
                 ?: emptySet()
             pickerAdapter.setSelectedExerciseIds(selectedIds)
+        }
+
+        sheetBinding.chipGroupFilter.setOnCheckedStateChangeListener { group, checkedIds ->
+            selectedMuscleGroup = if (checkedIds.isNotEmpty()) {
+                val chipId = checkedIds.first()
+                if (chipId == sheetBinding.chipAll.id) {
+                    null
+                } else {
+                    val chip = group.findViewById<Chip>(chipId)
+                    chip?.text?.toString()
+                }
+            } else {
+                null
+            }
+            updateFilteredList()
+        }
+
+        viewModel.exercises.observe(viewLifecycleOwner) { exercises ->
+            allExercises = exercises
+            updateFilteredList()
         }
 
         bottomSheetDialog.show()

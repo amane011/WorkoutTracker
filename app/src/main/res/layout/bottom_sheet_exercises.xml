@@ -24,6 +24,74 @@
         android:textColor="@color/on_surface_variant"
         android:textSize="14sp" />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:singleLine="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_all"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="All" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_chest"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chest" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_back"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_shoulders"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shoulders" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_arms"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Arms" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_legs"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Legs" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_core"
+                style="@style/MuscleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Core" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
     <!-- Empty State -->
     <LinearLayout
         android:id="@+id/empty_state"
@@ -40,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="No exercises created yet.\nGo to Manage Exercises to add some."
+            android:text="No exercises available.\nCreate one above to get started."
             android:textColor="@color/on_surface_variant"
             android:textSize="14sp" />
 

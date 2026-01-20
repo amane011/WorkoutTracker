@@ -13,7 +13,6 @@ import com.example.workouttracker.WorkoutApplication
 import com.example.workouttracker.databinding.FragmentHomeBinding
 import com.example.workouttracker.databinding.DialogNewWorkoutBinding
 import com.example.workouttracker.ui.adapters.WorkoutAdapter
-import com.example.workouttracker.ui.screens.exercise.ExercisesFragment
 import com.example.workouttracker.ui.screens.workout.WorkoutFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -59,10 +58,6 @@ class HomeFragment : Fragment() {
     private fun setupClickListeners() {
         binding.fabNewWorkout.setOnClickListener {
             showNewWorkoutDialog()
-        }
-
-        binding.btnManageExercises.setOnClickListener {
-            navigateToExercises()
         }
     }
 
@@ -111,19 +106,6 @@ class HomeFragment : Fragment() {
                 R.anim.slide_out_right
             )
             .replace(R.id.fragment_container, WorkoutFragment.newInstance(workoutId))
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun navigateToExercises() {
-        parentFragmentManager.beginTransaction()
-            .setCustomAnimations(
-                R.anim.slide_in_right,
-                R.anim.slide_out_left,
-                R.anim.slide_in_left,
-                R.anim.slide_out_right
-            )
-            .replace(R.id.fragment_container, ExercisesFragment())
             .addToBackStack(null)
             .commit()
     }
