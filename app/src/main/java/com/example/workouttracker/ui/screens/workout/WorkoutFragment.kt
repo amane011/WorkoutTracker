@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workouttracker.R
 import com.example.workouttracker.WorkoutApplication
 import com.example.workouttracker.data.local.entity.Exercise
+import android.widget.ArrayAdapter
 import com.example.workouttracker.databinding.FragmentWorkoutBinding
 import com.example.workouttracker.databinding.DialogAddSetBinding
+import com.example.workouttracker.databinding.DialogNewExerciseBinding
 import com.example.workouttracker.databinding.BottomSheetExercisesBinding
 import com.example.workouttracker.ui.adapters.ExerciseCardAdapter
 import com.example.workouttracker.ui.adapters.ExercisePickerAdapter
 import com.example.workouttracker.ui.adapters.ExerciseWithSets
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -163,6 +166,9 @@ class WorkoutFragment : Fragment() {
         val sheetBinding = BottomSheetExercisesBinding.inflate(layoutInflater)
         bottomSheetDialog.setContentView(sheetBinding.root)
 
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetDialog.behavior.skipCollapsed = true
+
         var selectedMuscleGroup: String? = null
         var allExercises: List<Exercise> = emptyList()
 
@@ -213,7 +219,51 @@ class WorkoutFragment : Fragment() {
             updateFilteredList()
         }
 
+        sheetBinding.btnCreateExercise.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showNewExerciseDialog(selectedMuscleGroup)
+        }
+
         bottomSheetDialog.show()
+    }
+
+    private fun showNewExerciseDialog(preselectedMuscleGroup: String? = null) {
+        val dialogBinding = DialogNewExerciseBinding.inflate(layoutInflater)
+
+        val muscleGroups = listOf("Chest", "Back", "Shoulders", "Arms", "Legs", "Core")
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, muscleGroups)
+        dialogBinding.dropdownMuscleGroup.setAdapter(adapter)
+
+        preselectedMuscleGroup?.let {
+            dialogBinding.dropdownMuscleGroup.setText(it, false)
+        }
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnCreate.setOnClickListener {
+            val name = dialogBinding.etExerciseName.text.toString().trim()
+            val muscleGroup = dialogBinding.dropdownMuscleGroup.text.toString().trim()
+
+            if (name.isNotEmpty() && muscleGroup.isNotEmpty()) {
+                viewModel.createExercise(name, muscleGroup)
+                dialog.dismiss()
+            } else {
+                if (name.isEmpty()) {
+                    dialogBinding.tilExerciseName.error = "Enter exercise name"
+                }
+                if (muscleGroup.isEmpty()) {
+                    dialogBinding.tilMuscleGroup.error = "Select muscle group"
+                }
+            }
+        }
+
+        dialog.show()
     }
 
     override fun onDestroyView() {

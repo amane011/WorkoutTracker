@@ -71,6 +71,14 @@ class WorkoutViewModel(
         }
     }
 
+    fun createExercise(name: String, muscleGroup: String, onCreated: (Long) -> Unit = {}) {
+        viewModelScope.launch {
+            val exercise = Exercise(name = name, muscleGroup = muscleGroup)
+            val exerciseId = repository.insertExercise(exercise)
+            onCreated(exerciseId)
+        }
+    }
+
     companion object {
         fun factory(repository: WorkoutRepository, workoutId: Long): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {

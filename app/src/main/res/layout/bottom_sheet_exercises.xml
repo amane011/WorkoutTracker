@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="No exercises available.\nCreate one above to get started."
+            android:text="No exercises available.\nCreate one below to get started."
             android:textColor="@color/on_surface_variant"
             android:textSize="14sp" />
 
@@ -117,9 +120,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercises_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp" />
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false" />
+
+    <!-- Create New Exercise Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_create_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:text="Create New Exercise"
+        android:textColor="@color/surface"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/on_surface"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="textStart"
+        app:iconTint="@color/surface" />
 
 </LinearLayout>
